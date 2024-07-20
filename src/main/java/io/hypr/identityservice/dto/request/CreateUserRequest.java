@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Builder
 public class CreateUserRequest {
     @NotBlank(message = "Username can't be blank")
+    @Size(min = 6, message = "Username must have at least 6 characters")
     private String username;
     @Size(min = 8, message = "Password must have a maximum of 8 characters")
     @Pattern(
