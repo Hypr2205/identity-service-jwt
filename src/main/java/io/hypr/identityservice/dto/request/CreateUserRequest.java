@@ -1,5 +1,6 @@
 package io.hypr.identityservice.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class CreateUserRequest {
+    @NotBlank(message = "Username can't be blank")
     private String username;
     @Size(min = 8, message = "Password must have a maximum of 8 characters")
     @Pattern(
