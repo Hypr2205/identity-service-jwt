@@ -11,4 +11,4 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialiect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
