@@ -4,6 +4,7 @@ import io.hypr.identityservice.dto.request.CreateUserRequest;
 import io.hypr.identityservice.dto.request.UpdateUserRequest;
 import io.hypr.identityservice.entity.User;
 import io.hypr.identityservice.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody CreateUserRequest request) {
+    public User createUser(@Valid @RequestBody CreateUserRequest request) {
         return userService.createUserRequest(request);
     }
 
