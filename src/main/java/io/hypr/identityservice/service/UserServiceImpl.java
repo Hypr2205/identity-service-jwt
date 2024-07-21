@@ -5,6 +5,7 @@ import io.hypr.identityservice.dto.request.UpdateUserRequest;
 import io.hypr.identityservice.entity.User;
 import io.hypr.identityservice.exception.AppException;
 import io.hypr.identityservice.exception.ErrorCode;
+import io.hypr.identityservice.mapper.UserMapper;
 import io.hypr.identityservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public User createUserRequest(CreateUserRequest request) {
@@ -22,15 +24,7 @@ public class UserServiceImpl implements UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
-        return userRepository.save(
-            User
-                .builder()
-                .username(request.getUsername())
-                .password(request.getPassword())
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .dateOfBirth(request.getDateOfBirth())
-                .build());
+        return userRepository.save(userMapper.toEntity(request));
     }
 
     @Override
@@ -48,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(String id, UpdateUserRequest request) {
         var existingUser = getUserById(id);
-        UpdateUserRequest.mapToEntity(existingUser, request);
+        userMapper.updateUser(existingUser, request);
         return userRepository.save(existingUser);
     }
 
