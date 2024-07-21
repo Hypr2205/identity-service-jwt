@@ -1,6 +1,5 @@
 package io.hypr.identityservice.dto.request;
 
-import io.hypr.identityservice.entity.User;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -24,11 +23,4 @@ public class UpdateUserRequest {
     private String firstname;
     private String lastname;
     private LocalDate dateOfBirth;
-
-    public static void mapToEntity(User existingUser, UpdateUserRequest request) {
-        existingUser.setPassword(request.getPassword());
-        existingUser.setFirstname(request.getFirstname());
-        existingUser.setLastname(request.getLastname());
-        existingUser.setDateOfBirth(request.getDateOfBirth());
-    }
 }
