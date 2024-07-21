@@ -2,6 +2,7 @@ package io.hypr.identityservice.controller;
 
 import io.hypr.identityservice.dto.request.CreateUserRequest;
 import io.hypr.identityservice.dto.request.UpdateUserRequest;
+import io.hypr.identityservice.dto.response.ApiResponse;
 import io.hypr.identityservice.entity.User;
 import io.hypr.identityservice.service.UserService;
 import jakarta.validation.Valid;
@@ -17,18 +18,29 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ApiResponse<List<User>> getAllUsers() {
+        return ApiResponse
+            .<List<User>>builder()
+            .result(userService.getAllUsers())
+            .build();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable String id) {
-        return userService.getUserById(id);
+    public ApiResponse<User> getUserById(@PathVariable String id) {
+        return ApiResponse
+            .<User>builder()
+            .result(userService.getUserById(id))
+            .build();
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody CreateUserRequest request) {
-        return userService.createUserRequest(request);
+    public ApiResponse<User> createUser(@Valid @RequestBody CreateUserRequest request) {
+        return ApiResponse
+            .<User>builder()
+            .code(201)
+            .message("User created successfully!")
+            .result(userService.createUserRequest(request))
+            .build();
     }
 
     @PutMapping("/{id}")

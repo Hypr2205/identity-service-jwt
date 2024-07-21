@@ -19,7 +19,7 @@ public class UpdateUserRequest {
     @Size(min = 8, message = "Password must have a maximum of 8 characters")
     @Pattern(
         regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-        message = "Password must have uppercase & lowercase characters, numbers and 1 special character"
+        message = "PASSWORD_INVALID"
     )
     private String firstname;
     private String lastname;

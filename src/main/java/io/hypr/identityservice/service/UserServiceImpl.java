@@ -3,6 +3,8 @@ package io.hypr.identityservice.service;
 import io.hypr.identityservice.dto.request.CreateUserRequest;
 import io.hypr.identityservice.dto.request.UpdateUserRequest;
 import io.hypr.identityservice.entity.User;
+import io.hypr.identityservice.exception.AppException;
+import io.hypr.identityservice.exception.ErrorCode;
 import io.hypr.identityservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUserRequest(CreateUserRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("User with username " + request.getUsername() + " already exists");
+            throw new AppException(ErrorCode.USER_EXISTED);
         }
 
         return userRepository.save(
