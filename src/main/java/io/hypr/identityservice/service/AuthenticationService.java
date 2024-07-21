@@ -2,9 +2,13 @@ package io.hypr.identityservice.service;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import io.hypr.identityservice.dto.request.AuthenticationRequest;
+import io.hypr.identityservice.dto.request.IntrospectRequest;
 import io.hypr.identityservice.dto.response.AuthenticationResponse;
+import io.hypr.identityservice.dto.response.IntrospectResponse;
 import io.hypr.identityservice.exception.AppException;
 import io.hypr.identityservice.exception.ErrorCode;
 import io.hypr.identityservice.repository.UserRepository;
@@ -15,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -43,6 +48,23 @@ public class AuthenticationService {
             .builder()
             .token(token)
             .isAuthenticated(true)
+            .build();
+    }
+
+    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
+        var token = request.getToken();
+
+        JWSVerifier verifier = new MACVerifier(secretKey.getBytes());
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        Date expiration = signedJWT
+            .getJWTClaimsSet()
+            .getExpirationTime();
+
+        var verified = signedJWT.verify(verifier);
+
+        return IntrospectResponse
+            .builder()
+            .valid(verified && expiration.after(new Date()))
             .build();
     }
 
