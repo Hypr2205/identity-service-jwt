@@ -8,6 +8,7 @@ import io.hypr.identityservice.exception.ErrorCode;
 import io.hypr.identityservice.mapper.UserMapper;
 import io.hypr.identityservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +18,17 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User createUserRequest(CreateUserRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
+        var user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        return userRepository.save(userMapper.toEntity(request));
+        return userRepository.save(user);
     }
 
     @Override
