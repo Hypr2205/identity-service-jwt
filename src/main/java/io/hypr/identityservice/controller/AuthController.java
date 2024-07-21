@@ -21,10 +21,7 @@ public class AuthController {
         var result = authenticationService.authenticated(request);
         return ApiResponse
             .<AuthenticationResponse>builder()
-            .result(AuthenticationResponse
-                .builder()
-                .isAuthenticated(result)
-                .build())
+            .result(result)
             .build();
     }
 }

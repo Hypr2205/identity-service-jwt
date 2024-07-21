@@ -11,6 +11,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(1002, "User not found"),
     USERNAME_INVALID(1003, "Username can't be blank and must have at least 6 characters"),
     PASSWORD_INVALID(1004, "Password must have at least 8 characters with uppercase & lowercase characters, numbers and 1 special character"),
+    UNAUTHENTICATED(1005, "Unauthenticated"),
     ;
 
     private final int code;
