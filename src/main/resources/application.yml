@@ -1,4 +1,7 @@
 spring:
+  config:
+    import:
+      file:../../.env[.properties],file:.env[properties]
   application:
     name:
       identity-service
@@ -13,4 +16,4 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 jwt:
-  signer-key: ${JWT_SIGNER_KEY}
+  signer-key: ${JWT_SIGNER_KEY:agNSFRV7oZkcJdbf2onbEHFiSFnaVVsrbUwunD5ztGlER+wEmAr+mfwL3zMypjKn}
