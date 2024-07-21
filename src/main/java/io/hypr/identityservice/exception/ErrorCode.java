@@ -8,8 +8,9 @@ import lombok.Getter;
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(1000, "Uncategorized exception"),
     USER_EXISTED(1001, "User existed"),
-    USERNAME_INVALID(1002, "Username can't be blank and must have at least 6 characters"),
-    PASSWORD_INVALID(1003, "Password must have at least 8 characters with uppercase & lowercase characters, numbers and 1 special character"),
+    USER_NOT_FOUND(1002, "User Not Found"),
+    USERNAME_INVALID(1003, "Username can't be blank and must have at least 6 characters"),
+    PASSWORD_INVALID(1004, "Password must have at least 8 characters with uppercase & lowercase characters, numbers and 1 special character"),
     ;
 
     private final int code;
