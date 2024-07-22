@@ -15,10 +15,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class CreateUserRequest {
-    @NotBlank(message = "Username can't be blank")
+    @NotBlank(message = "USERNAME_INVALID")
     @Size(min = 6, message = "USERNAME_INVALID")
     private String username;
-    @Size(min = 8, message = "Password must have at least 8 characters")
+    @Size(min = 8, message = "PASSWORD_INVALID")
     @Pattern(
         regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
         message = "PASSWORD_INVALID"

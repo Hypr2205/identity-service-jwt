@@ -2,6 +2,7 @@ package io.hypr.identityservice.service;
 
 import io.hypr.identityservice.dto.request.CreateUserRequest;
 import io.hypr.identityservice.dto.request.UpdateUserRequest;
+import io.hypr.identityservice.entity.Role;
 import io.hypr.identityservice.entity.User;
 import io.hypr.identityservice.exception.AppException;
 import io.hypr.identityservice.exception.ErrorCode;
@@ -11,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +28,11 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-        var user = userMapper.toEntity(request);
+        var user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        Set<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+        user.setRoles(roles);
 
         return userRepository.save(user);
     }
