@@ -1,5 +1,6 @@
 package io.hypr.identityservice.dto.request;
 
+import io.hypr.identityservice.validator.DateOfBirthConstraint;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +24,7 @@ public class UpdateUserRequest {
     )
     private String firstname;
     private String lastname;
+    @DateOfBirthConstraint(min = 15, message = "INVALID_DOB")
     private LocalDate dateOfBirth;
+    private List<String> roles;
 }

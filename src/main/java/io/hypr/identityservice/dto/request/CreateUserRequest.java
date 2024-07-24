@@ -1,5 +1,6 @@
 package io.hypr.identityservice.dto.request;
 
+import io.hypr.identityservice.validator.DateOfBirthConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -26,5 +27,6 @@ public class CreateUserRequest {
     private String password;
     private String firstname;
     private String lastname;
+    @DateOfBirthConstraint(min = 15, message = "INVALID_DOB")
     private LocalDate dateOfBirth;
 }

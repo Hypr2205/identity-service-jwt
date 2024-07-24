@@ -3,7 +3,7 @@ package io.hypr.identityservice.controller;
 import io.hypr.identityservice.dto.request.CreateUserRequest;
 import io.hypr.identityservice.dto.request.UpdateUserRequest;
 import io.hypr.identityservice.dto.response.ApiResponse;
-import io.hypr.identityservice.entity.User;
+import io.hypr.identityservice.dto.response.UserResponse;
 import io.hypr.identityservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ApiResponse<List<User>> getAllUsers() {
+    public ApiResponse<List<UserResponse>> getAllUsers() {
         var authentication = SecurityContextHolder
             .getContext()
             .getAuthentication();
@@ -32,23 +32,23 @@ public class UserController {
             .forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
         return ApiResponse
-            .<List<User>>builder()
+            .<List<UserResponse>>builder()
             .result(userService.getAllUsers())
             .build();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<User> getUserById(@PathVariable String id) {
+    public ApiResponse<UserResponse> getUserById(@PathVariable String id) {
         return ApiResponse
-            .<User>builder()
+            .<UserResponse>builder()
             .result(userService.getUserById(id))
             .build();
     }
 
     @PostMapping
-    public ApiResponse<User> createUser(@Valid @RequestBody CreateUserRequest request) {
+    public ApiResponse<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         return ApiResponse
-            .<User>builder()
+            .<UserResponse>builder()
             .code(201)
             .message("User created successfully!")
             .result(userService.createUserRequest(request))
@@ -56,9 +56,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<User> updateUser(@PathVariable String id, @RequestBody UpdateUserRequest request) {
+    public ApiResponse<UserResponse> updateUser(@PathVariable String id, @RequestBody UpdateUserRequest request) {
         return ApiResponse
-            .<User>builder()
+            .<UserResponse>builder()
             .result(userService.updateUser(id, request))
             .build();
     }
