@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {"/api/users", "/auth/login", "/auth/introspect"};
+    private final String[] PUBLIC_ENDPOINTS = {"/api/users", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(

@@ -3,6 +3,7 @@ package io.hypr.identityservice.controller;
 import io.hypr.identityservice.dto.request.AuthenticationRequest;
 import io.hypr.identityservice.dto.request.IntrospectRequest;
 import io.hypr.identityservice.dto.request.LogoutRequest;
+import io.hypr.identityservice.dto.request.RefreshRequest;
 import io.hypr.identityservice.dto.response.ApiResponse;
 import io.hypr.identityservice.dto.response.AuthenticationResponse;
 import io.hypr.identityservice.dto.response.IntrospectResponse;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
@@ -38,10 +41,19 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ApiResponse<Void> logout(@RequestBody LogoutRequest request) {
+    public ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException {
         authenticationService.logout(request);
         return ApiResponse
             .<Void>builder()
+            .build();
+    }
+
+    @PostMapping("/refresh")
+    public ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshRequest request) throws ParseException {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse
+            .<AuthenticationResponse>builder()
+            .result(result)
             .build();
     }
 }
